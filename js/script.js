@@ -52,7 +52,7 @@ document.querySelectorAll(".glass").forEach((element) => {
   });
 });
 
-// Click effect keyanimation
+// Click effect key animation
 const style = document.createElement("style");
 style.textContent = `
             @keyframes ripple {
@@ -64,39 +64,6 @@ style.textContent = `
         `;
 document.head.appendChild(style);
 
-// 4. Penanganan form submission (jika ada form kontak)
-const contactForm = document.querySelector("form");
-if (contactForm) {
-  contactForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const successMsg = document.createElement("div");
-    successMsg.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: rgba(46, 204, 113, 0.9);
-                color: white;
-                padding: 20px 40px;
-                border-radius: 10px;
-                backdrop-filter: blur(20px);
-                z-index: 10000;
-                animation: fadeIn 0.3s ease;
-            `;
-    successMsg.textContent =
-      "Message sent successfully! We'll get back to you soon.";
-
-    document.body.appendChild(successMsg);
-
-    setTimeout(() => {
-      successMsg.remove();
-    }, 3000);
-
-    this.reset();
-  });
-}
-
 // Fade in Animation
 const fadeStyle = document.createElement("style");
 fadeStyle.textContent = `
@@ -106,3 +73,50 @@ fadeStyle.textContent = `
             }
         `;
 document.head.appendChild(fadeStyle);
+
+// Auto-Copy Feature for WhatsApp & Email
+document.querySelectorAll(".clickable-contact").forEach((item) => {
+  item.addEventListener("click", function () {
+    const textToCopy = this.getAttribute("data-copy");
+
+    // Copy to clipboard feature
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      // Copy success pop up notification
+      const notif = document.createElement("div");
+      notif.textContent = `Berhasil disalin: ${textToCopy}`;
+      notif.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(46, 204, 113, 0.95);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        z-index: 10000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: fadeInOut 2s ease forwards;
+      `;
+
+      document.body.appendChild(notif);
+
+      // Automatic timeout after 2 sec
+      setTimeout(() => {
+        notif.remove();
+      }, 2000);
+    });
+  });
+});
+
+//Keyframe animation for copy notification
+const copyNotifStyle = document.createElement("style");
+copyNotifStyle.textContent = `
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    15% { opacity: 1; transform: translate(-50%, 0); }
+    85% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+  }
+`;
+document.head.appendChild(copyNotifStyle);
