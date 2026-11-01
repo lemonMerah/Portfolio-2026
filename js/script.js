@@ -1,41 +1,4 @@
-let currentPage = "home";
-
-function showPage(pageId) {
-  // Hide all pages
-  document.querySelectorAll(".page").forEach((page) => {
-    page.classList.remove("active");
-  });
-
-  // Show selected page
-  document.getElementById(pageId).classList.add("active");
-
-  // Update navigation
-  document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.classList.remove("active");
-    if (link.getAttribute("onclick") === `showPage('${pageId}')`) {
-      link.classList.add("active");
-    }
-  });
-
-  currentPage = pageId;
-
-  // Move footer to the active page
-  const footer = document.getElementById("footer");
-  const activePage = document.getElementById(pageId);
-  activePage.appendChild(footer);
-
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-// Initialize footer position
-window.addEventListener("DOMContentLoaded", () => {
-  const footer = document.getElementById("footer");
-  const homePage = document.getElementById("home");
-  homePage.appendChild(footer);
-});
-
-// Add interactive parallax effect to background shapes
+// 1. Parallex effect for background shape
 document.addEventListener("mousemove", (e) => {
   const shapes = document.querySelectorAll(".shape");
   const x = e.clientX / window.innerWidth;
@@ -49,7 +12,7 @@ document.addEventListener("mousemove", (e) => {
   });
 });
 
-// Add scroll-based animations
+// 2. Scroll Animation for background shape
 window.addEventListener("scroll", () => {
   const scrolled = window.pageYOffset;
   const parallax = document.querySelector(".bg-shapes");
@@ -57,7 +20,7 @@ window.addEventListener("scroll", () => {
   parallax.style.transform = `translateY(${speed}px)`;
 });
 
-// Add click ripple effect to glass elements
+// 3. Click animation for glass element
 document.querySelectorAll(".glass").forEach((element) => {
   element.addEventListener("click", function (e) {
     const ripple = document.createElement("div");
@@ -67,18 +30,18 @@ document.querySelectorAll(".glass").forEach((element) => {
     const y = e.clientY - rect.top - size / 2;
 
     ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    left: ${x}px;
-                    top: ${y}px;
-                    background: rgba(255, 255, 255, 0.3);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    pointer-events: none;
-                    z-index: 1000;
-                `;
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+                z-index: 1000;
+            `;
 
     this.style.position = "relative";
     this.appendChild(ripple);
@@ -89,7 +52,7 @@ document.querySelectorAll(".glass").forEach((element) => {
   });
 });
 
-// Add ripple animation keyframes
+// Click effect keyanimation
 const style = document.createElement("style");
 style.textContent = `
             @keyframes ripple {
@@ -101,13 +64,14 @@ style.textContent = `
         `;
 document.head.appendChild(style);
 
-// Form submission handling
-document.querySelector("form").addEventListener("submit", function (e) {
-  e.preventDefault();
+// 4. Penanganan form submission (jika ada form kontak)
+const contactForm = document.querySelector("form");
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  // Create success message
-  const successMsg = document.createElement("div");
-  successMsg.style.cssText = `
+    const successMsg = document.createElement("div");
+    successMsg.style.cssText = `
                 position: fixed;
                 top: 50%;
                 left: 50%;
@@ -120,21 +84,20 @@ document.querySelector("form").addEventListener("submit", function (e) {
                 z-index: 10000;
                 animation: fadeIn 0.3s ease;
             `;
-  successMsg.textContent =
-    "Message sent successfully! We'll get back to you soon.";
+    successMsg.textContent =
+      "Message sent successfully! We'll get back to you soon.";
 
-  document.body.appendChild(successMsg);
+    document.body.appendChild(successMsg);
 
-  // Remove message after 3 seconds
-  setTimeout(() => {
-    successMsg.remove();
-  }, 3000);
+    setTimeout(() => {
+      successMsg.remove();
+    }, 3000);
 
-  // Reset form
-  this.reset();
-});
+    this.reset();
+  });
+}
 
-// Add fade in animation
+// Fade in Animation
 const fadeStyle = document.createElement("style");
 fadeStyle.textContent = `
             @keyframes fadeIn {
