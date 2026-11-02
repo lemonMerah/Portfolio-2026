@@ -1,5 +1,7 @@
 # Portfolio Website 🌐
 
+<img width="1765" height="1041" alt="{67751B7F-80D2-4DD5-96A0-4CE05278DFC0}" src="https://github.com/user-attachments/assets/f7a282da-d510-4f5a-a978-873178f42530" />
+
 Live demo link: https://lemonmerah.github.io/Portfolio-2026/
 
 ## 🔴 About Me
